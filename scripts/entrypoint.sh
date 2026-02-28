@@ -2,8 +2,6 @@
 
 echo "Starting up Flasker container"
 
-source /root/.flasker/bin/activate
-
 # working directory should be /root/cdubz_flasker
 echo "Updating cdubz_flasker"
 git fetch && git pull
