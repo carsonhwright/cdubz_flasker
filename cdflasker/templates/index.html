@@ -2,16 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Legalize Nuclear Bombs</title>
+    <title>Inline File Viewer</title>
+    <style>
+        pre { 
+            background: #f0f0f0; 
+            padding: 100px; 
+            border: 100px solid #ccc; 
+            overflow-x: auto;
+        }
+        img { max-width: 500px; max-height: 1000px; display:inline-table; margin-bottom: 20px; }
+        iframe { width: 100%; height: 600px; border: none; margin-bottom: 20px; }
+    </style>
 </head>
 <body>
     <h1>Get yo files, mayne.</h1>
-
+    <!-- Links -->
+    <h2> Links </h2>
     <ul>
         <!-- will open file in current tab, sending home page back in history -->
         <li><a href="mandatory_electronic_lien_filing_-_update.pdf" target="_self">lein.pdf</a></li>
         <!-- opens in new tab -->
         <li><a href="shadow_wizard_money.jpg" target="_blank">SWMG</a></li>
     </ul>
+    <!-- Embedded -->
+    <h2> Embedded </h2>
+    
+    <!-- I think this is like jinja formatting? -->
+    {% for file in files %}
+        <h3>{{ file }}</h3>
+        {% if file.endswith('.txt') %}
+            <pre>{{ open('files/' + file).read() }}</pre>
+        {% elif file.endswith('.png') or file.endswith('.jpg') or file.endswith('.jpeg') or file.endswith('.gif') %}
+            <img src="{{ url_for('serve_file', filename=file) }}" alt="{{ file }}">
+        {% elif file.endswith('.pdf') %}
+            <iframe src="{{ url_for('serve_file', filename=file) }}"></iframe>
+        {% else %}
+            <a href="{{ url_for('serve_file', filename=file) }}" target="_blank">Download {{ file }}</a>
+        {% endif %}
+    {% endfor %}
+
 </body>
 </html>
